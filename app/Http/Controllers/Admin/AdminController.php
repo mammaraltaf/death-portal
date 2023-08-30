@@ -3,85 +3,51 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Form;
 use Illuminate\Http\Request;
 use App\Models\User;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return view('admin.dashboard');
+        $users = User::whereIsAdmin(0)->count();
+        $forms = Form::count();
+        return view('admin.dashboard',compact('users','forms'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function users()
     {
-        $users = User::all();
+        $users = User::whereIsAdmin(0)->get();
         return view('admin.users.list', compact('users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function forms()
     {
-        return view('admin.forms.list');
+        $forms = Form::all();
+        return view('admin.forms.list', compact('forms'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function storeForm(Request $request)
     {
-        //
+        try{
+            $form = Form::create([
+                'name' => $request->name,
+                'visibility' => $request->visibility,
+                'status' => $request->status,
+            ]);
+
+            $form->form_fields()->createMany([
+                
+            ]);
+
+            return redirect()->back()->with('success','Form Created Successfully');
+        }
+        catch(\Exception $e){
+            return redirect()->back()->with('error',$e->getMessage());
+        }
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

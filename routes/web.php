@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DynamicFormsStorageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminController;
@@ -20,6 +21,10 @@ use App\Http\Controllers\User\UserController;
 Route::get('/', function () {
     return redirect(route("login"));
 });
+
+Route::get('/test',function (){
+    return view('builder');
+})->name('test');
 
 Auth::routes();
 
@@ -44,4 +49,21 @@ Route::group(['prefix' => 'user','middleware' => 'auth'], function () {
     Route::get('/{id}',      [UserController::class, 'specific_user'])->name('specific_user');
     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
     Route::get('/logout', [LoginController::class, 'logout'])->name('user.logout');
+});
+
+Route::prefix('dynamic-forms')->name('dynamic-forms.')->group(function () {
+    // Dummy route so we can use the route() helper to give formiojs the base path for this group
+    Route::get('/',[\App\Http\Controllers\BuilderController::class,'create'])->name('index');
+
+    Route::post('storage/s3', [DynamicFormsStorageController::class, 'storeS3'])
+        ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+
+    Route::get('storage/s3', [DynamicFormsStorageController::class, 'showS3'])->name('S3-file-download');
+    Route::get('storage/s3/{fileKey}', [DynamicFormsStorageController::class, 'showS3'])->name('S3-file-redirect');
+
+    Route::post('storage/url', [DynamicFormsStorageController::class, 'storeURL'])
+        ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+
+    Route::get('storage/url', [DynamicFormsStorageController::class, 'showURL'])->name('url-file-download');
+    Route::delete('storage/url', [DynamicFormsStorageController::class, 'deleteURL']);
 });

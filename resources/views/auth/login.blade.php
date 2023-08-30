@@ -27,7 +27,8 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group position-relative has-icon-left">
-                            <label for="username">{{ __('Email Address') }}</label>
+{{--                            <label for="username">{{ __('Email Address') }}</label>--}}
+                            <label for="username">Email Address</label>
                             <div class="position-relative">
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                             @error('email')
@@ -42,7 +43,8 @@
                         </div>
                         <div class="form-group position-relative has-icon-left">
                             <div class="clearfix">
-                                <label for="password">{{ __('Password') }}</label>
+{{--                                <label for="password">{{ __('Password') }}</label>--}}
+                                <label for="password">Password</label>
                                 <a href="{{ route('password.request') }}" class='float-right'>
                                     <small>Forgot password?</small>
                                 </a>
@@ -64,7 +66,8 @@
                             <div class="checkbox float-left">
                             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
+                                        Remember Me
+{{--                                        {{ __('Remember Me') }}--}}
                                     </label>
                             </div>
                             <div class="float-right">

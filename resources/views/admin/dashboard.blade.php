@@ -14,7 +14,7 @@
                             <div class='px-3 py-3 justify-content-between'>
                                 <h3 class='card-title' style="text-align:center">All Users</h3>
                                 <div class="card-right align-items-center">
-                                    <p style="text-align:center">$50 </p>
+                                    <p style="text-align:center">{{$users ?? 0}} </p>
                                 </div>
                             </div>
                         </div>
@@ -28,7 +28,7 @@
                             <div class='px-3 py-3 justify-content-between'>
                                 <h3 class='card-title' style="text-align:center">All Forms</h3>
                                 <div class="card-right align-items-center">
-                                    <p style="text-align:center">$532,2 </p>
+                                    <p style="text-align:center">{{$forms ?? 0}}</p>
                                 </div>
                             </div>
                         </div>
