@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Form;
+use App\Models\FormField;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -36,19 +38,37 @@ class AdminController extends Controller
 
     public function storeForm(Request $request)
     {
-        return response()->json($request['components'][0]);
+        // return response()->json(['message'=>$request['components'][0]['attributes']['notify']]);
         try{
+            DB::beginTransaction();
+
             $form = Form::create([
-                'name' => $request->name,
-                'visibility' => $request->visibility,
-                'status' => $request->status,
+                'name' => $request->formName,
+                'visibility' => 'open',
+                'status' => 'draft',
             ]);
-
-            $form->form_fields()->createMany([
-                
-            ]);
-
-            return redirect()->back()->with('success','Form Created Successfully');
+            if($form)
+            {
+                foreach($request['components'] as $field)
+                {
+                    $field_id = 0;
+                    $fields = FormField::create([
+                        'form_id'  => $form->id,
+                        'type'     => $field['type'],
+                        'name'     => str_replace(' ', '', $field['label']),//save name without spaces
+                        'label'    => $field['label'],
+                        'notify' => ($field['attributes']['notify'] ?? false) === "true" ? true : false, //check here that if notify in attribute is coming or not
+                        'field_id' => $field_id++
+                    ]);
+                }
+                if($fields)
+                {
+                    DB::commit();
+                    return response()->json(['message'=>'Form Created Successfully'], 200);
+                }
+                    DB::rollBack();
+                    return response()->json('Something went wrong! Please try again later.');
+            }
         }
         catch(\Exception $e){
             return redirect()->back()->with('error',$e->getMessage());

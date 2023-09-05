@@ -12,6 +12,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "mailerlite/mailerlite-php": "dev-boilerplate",
         "northwestern-sysdev/dynamic-forms": "^0.5.4",
         "wbraganca/yii2-dynamicform": "^2.0"
     },
