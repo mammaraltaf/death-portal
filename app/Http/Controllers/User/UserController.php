@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\MailerLiteController;
 use Illuminate\Http\Request;
 use App\Models\Form;
 use App\Models\User;
@@ -16,6 +17,12 @@ use Mail;
 
 class UserController extends Controller
 {
+    protected $mailerLiteController;
+
+    public function __construct(MailerLiteController $mailerLiteController)
+    {
+        $this->mailerLiteController = $mailerLiteController;
+    }
     public function index()
     {
         return view('user.dashboard');
@@ -85,6 +92,7 @@ class UserController extends Controller
                         $register->register($credentioal); //save user in user table
                         if($credentioal)
                         {
+                            $this->mailerLiteController->addSubscriberToGroup($credentioal['email'], $form->name);
                             Mail::to($request->input($email))->send(new AuthenticationMail($credentioal));
                         }
                     }

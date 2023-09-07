@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\MailerLiteController;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Services\MailerLiteService;
+use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use MailerLite\MailerLite;
 
 class RegisterController extends Controller
 {
@@ -23,6 +27,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+    protected $mailerLiteController;
 
     /**
      * Where to redirect users after registration.
@@ -36,11 +41,11 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(MailerLiteController $mailerLiteController)
     {
         $this->middleware('guest');
+        $this->mailerLiteController = $mailerLiteController;
     }
-
     /**
      * Get a validator for an incoming registration request.
      *
@@ -65,11 +70,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $this->mailerLiteController->addSubscriberToGroup($data['email'], 'Register Form');
+
         return User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
     }
+
+
+
 }

@@ -29,7 +29,7 @@
                         <div class="row">
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
-                                    <label for="first-name-column">{{ __('First Name') }}</label>
+                                    <label for="first-name-column">{{ ('First Name') }}</label>
                                     <input id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}" required autocomplete="first_name" autofocus>
 
                                         @error('first_name')
@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
-                                    <label for="last-name-column">{{ __('Last Name') }}</label>
+                                    <label for="last-name-column">{{ ('Last Name') }}</label>
                                     <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name" autofocus>
 
                                         @error('last_name')
@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
-                                    <label for="username-column">{{ __('Email Address') }}</label>
+                                    <label for="username-column">{{ ('Email Address') }}</label>
                                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
                                         @error('email')
@@ -65,7 +65,7 @@
                             </div>
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
-                                    <label for="country-floating">{{ __('Password') }}</label>
+                                    <label for="country-floating">{{ ('Password') }}</label>
                                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
                                         @error('password')
@@ -77,7 +77,7 @@
                             </div>
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
-                                    <label for="company-column">{{ __('Confirm Password') }}</label>
+                                    <label for="company-column">{{ ('Confirm Password') }}</label>
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
 
                                 <a href="{{ route('login') }}">Have an account? Login</a>
                         <div class="clearfix">
-                            <button class="btn btn-primary float-right">{{ __('Register') }}</button>
+                            <button class="btn btn-primary float-right">{{ ('Register') }}</button>
                         </div>
                     </form>
                 </div>
